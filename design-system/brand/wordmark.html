@@ -9,7 +9,6 @@
       .mark {
         display: inline-flex;
         align-items: center;
-        gap: 10px;
       }
       .panel {
         padding: 20px;
@@ -20,7 +19,6 @@
       .voice {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 0;
         border-top: 1px solid var(--rule-soft);
       }
       .voice > div {
@@ -31,6 +29,17 @@
         text-decoration: line-through;
         text-decoration-color: var(--out);
       }
+      .reject {
+        border-left: 2px solid var(--out);
+        padding-left: 14px;
+      }
+      .accept {
+        border-left: 2px solid var(--ok);
+        padding-left: 14px;
+      }
+      code {
+        font-family: ui-monospace, monospace;
+      }
     </style>
   </head>
   <body>
@@ -38,60 +47,100 @@
       <div>
         <h1 style="font-size: 30px">Wordmark</h1>
         <p class="note" style="margin-top: 8px">
-          One complete tally group — four uprights and the crossing fifth — set against the name in
-          Erode. The logo is the same object as the core UI element, so the brand and the interface
-          are literally made of the same thing. It is drawn in
-          <code style="font-family: ui-monospace, monospace">currentColor</code>, so it inherits ink
-          on paper and paper on ink without a second asset.
+          A single rank chevron set against the name in Erode. <strong>"Notch" is read as the
+          idiom</strong> — top-notch, taking it up a notch — so the mark rises. The chevron is the
+          insignia sense of a notch: rank earned, a stripe on a sleeve. That suits a product built
+          for people whose job is making somebody better.
         </p>
         <p class="note" style="margin-top: 8px">
-          <strong>Size the mark to cap height, not to the em.</strong> At 0.7× the type size it
-          aligns with the shoulders of the N; set to the full em it reads oversized, because
-          unlike a letter it has no ascender or descender to absorb the extra height. Width must
-          track height at 23:24 — scaling the two independently skews the strokes off square.
+          The mark is drawn in <code>currentColor</code>, so it inherits ink on paper and paper on
+          ink without a second asset.
         </p>
       </div>
 
-      <section class="row" style="gap: 32px">
+      <section class="row" style="gap: 28px">
         <div class="panel">
-          <span class="mark" style="color: var(--ink)">
-            <svg width="19" height="20" viewBox="0 0 23 24" fill="none">
-              <line x1="3" y1="1.5" x2="3" y2="22.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <line x1="9" y1="1.5" x2="9" y2="22.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <line x1="15" y1="1.5" x2="15" y2="22.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <line x1="21" y1="1.5" x2="21" y2="22.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <line x1="0.5" y1="22" x2="22.5" y2="2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <span class="mark" style="color: var(--ink); gap: 9.5px">
+            <svg width="22" height="18.5" viewBox="0 0 24 20" fill="none">
+              <path d="M3 17 12 3.6l9 13.4" stroke="currentColor" stroke-width="3.8"
+                stroke-linejoin="miter" stroke-linecap="butt" />
             </svg>
             <span class="display" style="font-size: 28px">Notch</span>
           </span>
         </div>
 
         <div class="panel" style="background: var(--ink)">
-          <span class="mark" style="color: var(--paper)">
-            <svg width="19" height="20" viewBox="0 0 23 24" fill="none">
-              <line x1="3" y1="1.5" x2="3" y2="22.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <line x1="9" y1="1.5" x2="9" y2="22.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <line x1="15" y1="1.5" x2="15" y2="22.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <line x1="21" y1="1.5" x2="21" y2="22.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <line x1="0.5" y1="22" x2="22.5" y2="2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <span class="mark" style="color: var(--paper); gap: 9.5px">
+            <svg width="22" height="18.5" viewBox="0 0 24 20" fill="none">
+              <path d="M3 17 12 3.6l9 13.4" stroke="currentColor" stroke-width="3.8"
+                stroke-linejoin="miter" stroke-linecap="butt" />
             </svg>
             <span class="display" style="font-size: 28px">Notch</span>
           </span>
         </div>
 
         <div class="panel">
-          <span class="mark" style="color: var(--ink)">
-            <svg width="11.5" height="12" viewBox="0 0 23 24" fill="none">
-              <line x1="3" y1="1.5" x2="3" y2="22.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <line x1="9" y1="1.5" x2="9" y2="22.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <line x1="15" y1="1.5" x2="15" y2="22.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <line x1="21" y1="1.5" x2="21" y2="22.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <line x1="0.5" y1="22" x2="22.5" y2="2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <span class="mark" style="color: var(--ink); gap: 5.8px">
+            <svg width="13.5" height="11.2" viewBox="0 0 24 20" fill="none">
+              <path d="M3 17 12 3.6l9 13.4" stroke="currentColor" stroke-width="3.8"
+                stroke-linejoin="miter" stroke-linecap="butt" />
             </svg>
             <span class="display" style="font-size: 17px">Notch</span>
           </span>
           <div class="label" style="margin-top: 10px">Small — 17px</div>
         </div>
+      </section>
+
+      <section>
+        <h2 class="label">Construction</h2>
+        <p class="note" style="margin-top: 8px">
+          Mark height is <strong>0.66× the type size</strong>, and width tracks height at the
+          viewBox's 24:20. Never scale the two independently — the apex skews off centre. A mark
+          set to the full em box reads oversized beside the letters, because unlike a letter it has
+          no ascender or descender to absorb the extra height.
+        </p>
+
+        <div style="display: grid; gap: 16px; margin-top: 14px; max-width: 620px">
+          <div class="reject">
+            <div class="label" style="color: var(--out)">Rejected — reads as a UI caret</div>
+            <span class="mark" style="gap: 6.5px; margin-top: 8px">
+              <svg width="16" height="10.6" viewBox="0 0 24 16" fill="none">
+                <path d="M2 13.6 12 2.6l10 11" stroke="var(--ink)" stroke-width="3"
+                  stroke-linejoin="miter" stroke-linecap="butt" />
+              </svg>
+              <span class="display" style="font-size: 19px">Notch</span>
+            </span>
+            <p class="note" style="font-size: 13px; margin-top: 6px">
+              Shallow 3:2 on a light stroke. This is the shape of an expand/collapse control, so
+              the logo reads as something to click rather than something stamped.
+            </p>
+          </div>
+
+          <div class="accept">
+            <div class="label" style="color: var(--ok)">Shipped — a stamped stripe</div>
+            <span class="mark" style="gap: 6.5px; margin-top: 8px">
+              <svg width="15" height="12.5" viewBox="0 0 24 20" fill="none">
+                <path d="M3 17 12 3.6l9 13.4" stroke="var(--ink)" stroke-width="3.8"
+                  stroke-linejoin="miter" stroke-linecap="butt" />
+              </svg>
+              <span class="display" style="font-size: 19px">Notch</span>
+            </span>
+            <p class="note" style="font-size: 13px; margin-top: 6px">
+              Steeper 6:5 at stroke 3.8, mitred apex, cut ends rather than rounded. Heavier than
+              this outweighs Erode's stems and the lockup comes apart.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="label">Mark and device are different things — on purpose</h2>
+        <p class="note" style="margin-top: 8px">
+          The chevron is the <em>brand</em>: what the product is for — getting better, staying
+          top-notch. The tally is the <em>interface device</em>: what the product does — counting
+          what's left. Aspiration on the outside, mechanics on the inside. Don't put tally marks in
+          the logo, and don't put chevrons in the ledger.
+        </p>
       </section>
 
       <section>
@@ -118,11 +167,11 @@
       <section>
         <h2 class="label">Layout rules</h2>
         <ul class="note" style="margin-top: 8px; padding-left: 18px; line-height: 1.8">
-          <li>Rules, never shadows. Hairlines at <code style="font-family:ui-monospace,monospace">--rule</code> separate everything.</li>
+          <li>Rules, never shadows. Hairlines at <code>--rule</code> separate everything.</li>
           <li>Corners are 3px. Nothing in this product is a pill.</li>
           <li>Asymmetric grids on marketing pages; no three-across card rows.</li>
           <li>No icons. If something needs an icon to be understood, rewrite the label.</li>
-          <li>Section headers are <code style="font-family:ui-monospace,monospace">.label</code> over a rule, not a type step.</li>
+          <li>Section headers are <code>.label</code> over a rule, not a type step.</li>
         </ul>
       </section>
     </div>
