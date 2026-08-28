@@ -10,7 +10,7 @@ import { cache } from "react";
 import { db } from "@/db";
 import { users, type User } from "@/db/schema";
 
-const COOKIE = "sessionpack_auth";
+const COOKIE = "notch_auth";
 const MAX_AGE_SECONDS = 60 * 60 * 24 * 30; // 30 days
 
 function secret() {

@@ -1,52 +1,50 @@
 import Link from "next/link";
 
 import { MarketingFooter, MarketingHeader } from "@/components/marketing-chrome";
+import { TallyMarks } from "@/components/tally";
 import { getCurrentUser } from "@/lib/auth";
 
-/** A static, non-interactive preview of the dashboard for the hero. */
-function DashboardPreview() {
+/** A ledger page as it actually appears in the product. */
+function LedgerPreview() {
   const rows = [
-    { name: "Priya Sharma", left: 1, total: 10, tone: "low", note: "Needs a message" },
-    { name: "Marcus Webb", left: 0, total: 8, tone: "out", note: "Pack finished" },
-    { name: "Dani Okafor", left: 6, total: 12, tone: "ok", note: "On track" },
+    { name: "Priya Sharma", left: 1, total: 10, health: "low", note: "Ask about renewing" },
+    { name: "Marcus Webb", left: 0, total: 8, health: "out", note: "Pack finished" },
+    { name: "Dani Okafor", left: 6, total: 12, health: "ok", note: null },
+    { name: "Rosa Delgado", left: 17, total: 20, health: "ok", note: null },
   ] as const;
 
   const tone = {
-    ok: { text: "text-ok", bar: "bg-ok", chip: "bg-ok-soft text-ok" },
-    low: { text: "text-low", bar: "bg-low", chip: "bg-low-soft text-low" },
-    out: { text: "text-out", bar: "bg-out", chip: "bg-out-soft text-out" },
+    ok: "text-ok",
+    low: "text-low",
+    out: "text-out",
   };
 
   return (
-    <div className="card overflow-hidden shadow-sm">
-      <div className="flex items-center justify-between border-b border-line px-4 py-3">
-        <span className="display text-lg">Today</span>
-        <span className="pill bg-brand-soft text-brand-ink">2 to message</span>
+    <div className="sheet">
+      <div className="flex items-baseline justify-between border-b border-rule px-4 py-2.5">
+        <span className="label">Thursday</span>
+        <span className="label">Left</span>
       </div>
-      <ul className="divide-y divide-line">
-        {rows.map((r) => {
-          const t = tone[r.tone];
-          return (
-            <li key={r.name} className="flex items-center gap-4 px-4 py-3">
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="font-medium">{r.name}</span>
-                  <span className={`pill ${t.chip}`}>{r.note}</span>
-                </div>
-                <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-line">
-                  <div
-                    className={`h-full rounded-full ${t.bar}`}
-                    style={{ width: `${(r.left / r.total) * 100}%` }}
-                  />
-                </div>
-              </div>
-              <div className="text-right">
-                <div className={`display text-2xl tabular-nums ${t.text}`}>{r.left}</div>
-                <div className="label">of {r.total} left</div>
-              </div>
-            </li>
-          );
-        })}
+      <ul>
+        {rows.map((r, i) => (
+          <li
+            key={r.name}
+            className={`flex items-center gap-4 px-4 py-3 ${i > 0 ? "rule-t" : ""}`}
+          >
+            <div className="min-w-0 flex-1">
+              <div className="text-[0.9375rem] font-medium">{r.name}</div>
+              {r.note && <div className={`text-xs ${tone[r.health]}`}>{r.note}</div>}
+            </div>
+            <TallyMarks
+              total={r.total}
+              remaining={r.left}
+              health={r.health}
+              scale={0.72}
+              className="hidden sm:block"
+            />
+            <span className={`num w-7 text-right text-2xl ${tone[r.health]}`}>{r.left}</span>
+          </li>
+        ))}
       </ul>
     </div>
   );
@@ -54,16 +52,16 @@ function DashboardPreview() {
 
 const QUESTIONS = [
   {
-    q: "How many sessions does this client have left?",
-    a: "Every client shows a live count. You log a session with one tap after each class, and the number goes down. No spreadsheet, no counting back through your calendar.",
+    q: "How many sessions has this client got left?",
+    a: "One tap after each class cuts a notch. The count is always current, and it's the biggest thing on the screen — no spreadsheet, no counting backwards through your calendar.",
   },
   {
     q: "Who is nearly out?",
-    a: "Set your own warning line — two sessions left, three, whatever fits your business. Anyone at or below it moves to the top of your dashboard in amber.",
+    a: "You set the line — two sessions left, three, whatever suits how you work. Anyone at or below it moves to the top of the page and turns amber.",
   },
   {
-    q: "Who needs a renewal message today?",
-    a: "SessionPack drafts the message in your own voice, you glance at it and hit send. It won't ask you twice about the same client until their count drops again.",
+    q: "Who needs asking today?",
+    a: "Notch writes the message in your voice and puts it in front of you. You read it, change anything you want, and send. It won't ask you about the same client twice.",
   },
 ];
 
@@ -75,105 +73,109 @@ export default async function LandingPage() {
       <MarketingHeader signedIn={Boolean(user)} />
 
       <main className="flex-1">
-        <section className="mx-auto grid max-w-5xl items-center gap-10 px-4 py-14 lg:grid-cols-2 lg:py-20">
-          <div>
-            <p className="label">Prepaid session tracking</p>
-            <h1 className="display mt-2 text-4xl leading-[1.1] sm:text-5xl">
-              Never lose track of a session pack again.
+        {/* Asymmetric on purpose — the ledger sits lower and narrower than the claim. */}
+        <section className="mx-auto grid max-w-5xl gap-10 px-5 py-16 lg:grid-cols-12 lg:gap-12 lg:py-24">
+          <div className="lg:col-span-7">
+            <h1 className="display text-[2.75rem] leading-[1.03] sm:text-[3.5rem]">
+              Know what every client
+              <br className="hidden sm:inline" /> has left.
             </h1>
-            <p className="mt-4 text-lg text-muted">
-              For independent trainers and teachers who sell sessions in blocks. See what every
-              client has left, get warned when they&apos;re nearly out, and send a renewal message
-              before the final session.
+            <p className="mt-5 max-w-lg text-lg leading-relaxed text-ink-2">
+              Notch keeps count of prepaid session packs for trainers and teachers who sell
+              their time in blocks — and tells you who to ask about renewing, before the last
+              session quietly goes by.
             </p>
-            <div className="mt-6 flex flex-wrap items-center gap-3">
+            <div className="mt-7 flex flex-wrap items-center gap-3">
               <Link href="/register" className="btn btn-primary px-5 py-2.5">
                 Start free
               </Link>
               <Link href="/pricing" className="btn btn-secondary px-5 py-2.5">
-                See pricing
+                $9 a month
               </Link>
             </div>
             <p className="mt-3 text-sm text-muted">
-              $9/month once billing goes live. Free during early access — no card needed.
+              Free while we&apos;re in early access. No card.
             </p>
           </div>
 
-          <DashboardPreview />
+          <div className="lg:col-span-5 lg:pt-3">
+            <LedgerPreview />
+          </div>
         </section>
 
-        <section className="border-y border-line bg-card">
-          <div className="mx-auto max-w-5xl px-4 py-14">
-            <h2 className="display text-3xl">It answers three questions. That&apos;s all.</h2>
-            <p className="mt-2 max-w-2xl text-muted">
-              Most software for trainers wants to be your booking system, your payment processor
-              and your marketing suite. SessionPack is deliberately tiny.
+        {/* Numbered ledger entries, not three cards with icons in a row. */}
+        <section className="border-y border-rule bg-card">
+          <div className="mx-auto max-w-5xl px-5 py-16">
+            <h2 className="display max-w-xl text-3xl sm:text-4xl">
+              Three questions. Nothing else.
+            </h2>
+            <p className="mt-3 max-w-xl text-ink-2">
+              Most software for trainers wants to be your booking system, your card terminal and
+              your marketing suite. Notch is deliberately small, and stays that way.
             </p>
-            <div className="mt-8 grid gap-6 sm:grid-cols-3">
+
+            <dl className="mt-10">
               {QUESTIONS.map(({ q, a }, i) => (
-                <div key={q}>
-                  <div className="display text-2xl text-brand">
-                    {String(i + 1).padStart(2, "0")}
-                  </div>
-                  <h3 className="mt-1 font-semibold">{q}</h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-muted">{a}</p>
+                <div
+                  key={q}
+                  className="grid gap-x-6 gap-y-1.5 border-t border-rule py-6 sm:grid-cols-12"
+                >
+                  <dt className="sm:col-span-5">
+                    <span className="num mr-3 text-2xl text-faint">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="display text-xl">{q}</span>
+                  </dt>
+                  <dd className="text-ink-2 sm:col-span-7">{a}</dd>
                 </div>
               ))}
-            </div>
+            </dl>
           </div>
         </section>
 
-        <section className="mx-auto max-w-5xl px-4 py-14">
-          <div className="grid gap-8 lg:grid-cols-2">
-            <div>
-              <h2 className="display text-3xl">The renewal you keep forgetting</h2>
-              <p className="mt-3 text-muted">
-                The last session is the moment a client decides whether to carry on. Miss it and
-                they drift — not because they were unhappy, but because nobody asked.
+        <section className="mx-auto max-w-5xl px-5 py-16">
+          <div className="grid gap-10 lg:grid-cols-12">
+            <div className="lg:col-span-6">
+              <h2 className="display text-3xl sm:text-4xl">
+                The last session is the one that decides.
+              </h2>
+              <p className="mt-4 text-ink-2">
+                A client who finishes a pack without being asked doesn&apos;t usually quit. They
+                drift — not because anything was wrong, but because nobody said anything and the
+                slot went cold.
               </p>
-              <p className="mt-3 text-muted">
-                One saved renewal a month covers the cost of this many times over. That&apos;s the
-                whole pitch.
+              <p className="mt-3 text-ink-2">
+                Catching one of those a month covers the cost of this many times over. That is
+                the entire argument.
               </p>
-              <ul className="mt-5 flex flex-col gap-2 text-sm">
-                {[
-                  "One tap to log a session, with an undo if you mis-tap",
-                  "Drafted renewal emails that read like you wrote them",
-                  "An optional morning digest of who to message",
-                  "Never nudges the same client twice for the same count",
-                ].map((item) => (
-                  <li key={item} className="flex gap-2.5">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
             </div>
 
-            <figure className="card p-6">
-              <blockquote className="display text-xl leading-snug">
-                &ldquo;Hi Priya — quick note, you have 1 session left in your 10-session block.
-                Happy to get the next pack booked in so there&apos;s no gap in your schedule.&rdquo;
+            <figure className="sheet p-6 lg:col-span-6">
+              <span className="label">Drafted for you</span>
+              <blockquote className="display mt-3 text-xl leading-snug">
+                &ldquo;Hi Priya — quick note, you&apos;ve got one session left in your
+                ten-session block. Happy to get the next one booked in so there&apos;s no gap in
+                your Tuesdays.&rdquo;
               </blockquote>
-              <figcaption className="mt-4 text-sm text-muted">
-                A renewal message SessionPack drafts for you. Editable before it sends, and
-                replies come straight back to your inbox.
+              <figcaption className="rule-t mt-5 pt-4 text-sm text-muted">
+                Sent under your name, with your address as the reply-to — so when she replies it
+                lands in your inbox, not ours. Editable before it goes.
               </figcaption>
             </figure>
           </div>
         </section>
 
-        <section className="border-t border-line bg-brand text-white">
-          <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-6 px-4 py-12">
+        <section className="border-t border-rule bg-ink text-paper">
+          <div className="mx-auto flex max-w-5xl flex-wrap items-end gap-6 px-5 py-14">
             <div>
-              <h2 className="display text-3xl">Set it up in about five minutes.</h2>
-              <p className="mt-1 text-white/75">
+              <h2 className="display text-3xl sm:text-4xl">Set up in five minutes.</h2>
+              <p className="mt-2 text-paper/65">
                 Add your clients, enter what they&apos;ve already used, and you&apos;re current.
               </p>
             </div>
             <Link
               href="/register"
-              className="btn ml-auto bg-white px-5 py-2.5 text-brand-ink hover:bg-white/90"
+              className="btn ml-auto bg-paper px-5 py-2.5 text-ink hover:bg-white"
             >
               Start free
             </Link>

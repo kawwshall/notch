@@ -37,7 +37,7 @@ export function ClientForm({ client }: { client?: Client }) {
   }
 
   return (
-    <form ref={formRef} action={formAction} className="card p-4 sm:p-5">
+    <form ref={formRef} action={formAction} className="sheet p-4 sm:p-5">
       {client && <input type="hidden" name="clientId" value={client.id} />}
       <h2 className="display text-xl">{editing ? "Edit client" : "Add a client"}</h2>
 

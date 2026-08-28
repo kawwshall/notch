@@ -32,14 +32,14 @@ export function PackForm({
 
   if (clients.length === 0) {
     return (
-      <div className="card p-5 text-sm text-muted">
+      <div className="sheet p-5 text-sm text-muted">
         Add a client first, then you can sell them a pack.
       </div>
     );
   }
 
   return (
-    <form ref={formRef} action={formAction} className="card p-4 sm:p-5">
+    <form ref={formRef} action={formAction} className="sheet p-4 sm:p-5">
       <h2 className="display text-xl">Add a session pack</h2>
 
       <div className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -83,7 +83,7 @@ export function PackForm({
                 onClick={() => {
                   if (sessionsRef.current) sessionsRef.current.value = String(n);
                 }}
-                className="rounded-md border border-line px-2 py-0.5 text-xs text-muted hover:border-brand hover:text-brand"
+                className="rounded-md border border-rule px-2 py-0.5 text-xs text-muted hover:border-ink hover:text-ink"
               >
                 {n}
               </button>

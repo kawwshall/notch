@@ -10,7 +10,7 @@ export function SettingsForm({ user }: { user: User }) {
   const [state, formAction] = useActionState<ActionState, FormData>(updateSettingsAction, {});
 
   return (
-    <form action={formAction} className="card flex flex-col gap-4 p-5">
+    <form action={formAction} className="sheet flex flex-col gap-4 p-5">
       <div className="grid gap-3 sm:grid-cols-2">
         <div>
           <label className="field-label" htmlFor="sf-name">
@@ -57,7 +57,7 @@ export function SettingsForm({ user }: { user: User }) {
           type="checkbox"
           name="dailyDigest"
           defaultChecked={user.dailyDigest}
-          className="mt-0.5 h-4 w-4 accent-brand"
+          className="mt-0.5 h-4 w-4 accent-ink"
         />
         <span>
           <span className="text-sm font-medium">Daily digest email</span>

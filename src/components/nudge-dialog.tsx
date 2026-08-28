@@ -79,12 +79,12 @@ export function NudgeDialog({
       <dialog
         ref={dialogRef}
         onClose={() => setOpen(false)}
-        className="card m-auto w-[min(38rem,92vw)] p-0 backdrop:bg-ink/30"
+        className="sheet m-auto w-[min(38rem,92vw)] p-0 backdrop:bg-ink/40"
       >
         <form action={formAction} className="flex flex-col">
           <input type="hidden" name="packId" value={packId} />
 
-          <header className="border-b border-line px-5 py-4">
+          <header className="border-b border-rule px-5 py-4">
             <h2 className="display text-xl">Renewal message</h2>
             <p className="mt-0.5 text-sm text-muted">
               To {clientName} &lt;{clientEmail}&gt; — replies come straight back to you.
@@ -122,7 +122,7 @@ export function NudgeDialog({
             )}
           </div>
 
-          <footer className="flex justify-end gap-2 border-t border-line bg-paper px-5 py-3">
+          <footer className="flex justify-end gap-2 border-t border-rule bg-paper px-5 py-3">
             <button type="button" onClick={() => setOpen(false)} className="btn btn-secondary">
               Cancel
             </button>

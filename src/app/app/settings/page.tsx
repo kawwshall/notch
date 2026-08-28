@@ -15,7 +15,7 @@ export default async function SettingsPage() {
 
       <SettingsForm user={user} />
 
-      <div className="card p-5">
+      <div className="sheet p-5">
         <h2 className="display text-xl">Your plan</h2>
         <p className="mt-1 text-sm text-muted">
           You&apos;re on the early-access plan — everything unlocked, nothing to pay yet. When

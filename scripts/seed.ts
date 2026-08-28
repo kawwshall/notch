@@ -1,7 +1,7 @@
 /**
  * Demo data: `npx tsx scripts/seed.ts`
  * Creates a trainer with clients spanning every pack health state.
- * Login: demo@sessionpack.app / demo1234
+ * Login: demo@notch.app / demo1234
  */
 import "dotenv/config";
 
@@ -13,14 +13,14 @@ import { drizzle } from "drizzle-orm/better-sqlite3";
 import * as schema from "../src/db/schema";
 import { clients, packs, sessions, users } from "../src/db/schema";
 
-const sqlite = new Database(process.env.DATABASE_URL ?? "sessionpack.db");
+const sqlite = new Database(process.env.DATABASE_URL ?? "notch.db");
 sqlite.pragma("foreign_keys = ON");
 const db = drizzle(sqlite, { schema });
 
 const daysAgo = (n: number) => new Date(Date.now() - n * 86_400_000);
 
 async function main() {
-  const email = "demo@sessionpack.app";
+  const email = "demo@notch.app";
 
   // Idempotent: cascade wipes the demo user's clients, packs and sessions.
   await db.delete(users).where(eq(users.email, email));

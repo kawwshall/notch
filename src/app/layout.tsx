@@ -1,29 +1,36 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const sans = Inter({
-  variable: "--font-sans",
-  subsets: ["latin"],
+/*
+ * Self-hosted from Fontshare under the ITF Free Font License (see
+ * src/fonts/ITF-Free-Font-License.txt). Served whole and unmodified — the
+ * licence forbids subsetting, so don't add a `subsets` transform here.
+ */
+const erode = localFont({
+  variable: "--font-erode",
   display: "swap",
+  src: [
+    { path: "../fonts/Erode-Variable.woff2", weight: "300 800", style: "normal" },
+    { path: "../fonts/Erode-VariableItalic.woff2", weight: "300 800", style: "italic" },
+  ],
 });
 
-const display = Instrument_Serif({
-  variable: "--font-display",
-  weight: "400",
-  subsets: ["latin"],
+const switzer = localFont({
+  variable: "--font-switzer",
   display: "swap",
+  src: [{ path: "../fonts/Switzer-Variable.woff2", weight: "300 800", style: "normal" }],
 });
 
 export const metadata: Metadata = {
-  title: "SessionPack — never lose track of a session pack again",
+  title: "Notch — know what every client has left",
   description:
-    "Prepaid session tracking and renewal nudges for independent trainers, yoga teachers and music teachers. See what every client has left and send a renewal message before the final session.",
+    "Notch tracks prepaid session packs for independent trainers, yoga teachers and music teachers. See what every client has left, get warned when they're nearly out, and send the renewal message before the last session.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${sans.variable} ${display.variable} h-full antialiased`}>
+    <html lang="en" className={`${erode.variable} ${switzer.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

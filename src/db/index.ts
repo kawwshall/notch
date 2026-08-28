@@ -2,14 +2,14 @@ import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import * as schema from "./schema";
 
-const DB_PATH = process.env.DATABASE_URL ?? "sessionpack.db";
+const DB_PATH = process.env.DATABASE_URL ?? "notch.db";
 
 // Next dev server hot-reloads modules; without this we'd open a new SQLite
 // handle on every reload and eventually hit "too many open files".
-const globalForDb = globalThis as unknown as { __sessionpackDb?: Database.Database };
+const globalForDb = globalThis as unknown as { __notchDb?: Database.Database };
 
 const sqlite =
-  globalForDb.__sessionpackDb ??
+  globalForDb.__notchDb ??
   (() => {
     const conn = new Database(DB_PATH);
     conn.pragma("journal_mode = WAL");
@@ -17,7 +17,7 @@ const sqlite =
     return conn;
   })();
 
-if (process.env.NODE_ENV !== "production") globalForDb.__sessionpackDb = sqlite;
+if (process.env.NODE_ENV !== "production") globalForDb.__notchDb = sqlite;
 
 export const db = drizzle(sqlite, { schema });
 export { schema };

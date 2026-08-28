@@ -1,154 +1,220 @@
 @import "tailwindcss";
 
 /*
- * SessionPack — "Studio Ledger".
- * Warm paper, deep pine, and a three-step health scale (ok / low / out) that
- * carries almost all of the meaning in the product. Colour is functional here,
- * so the three status hues are the only saturated things on the page.
+ * NOTCH — design system: "Coach's Ledger"
+ * ---------------------------------------------------------------------------
+ * A notch is a mark cut to count something. This product counts sessions down,
+ * so the tally mark is the primary information device, not a decoration.
+ *
+ * Three rules hold the whole thing together:
+ *
+ * 1. INK IS THE BRAND. Primary buttons, the wordmark and focus rings are all
+ *    near-black. Saturated colour is reserved *entirely* for meaning — the
+ *    three pack states. If something is coloured, it is telling you something.
+ * 2. RULES, NOT SHADOWS. Surfaces are separated by hairlines like a ledger
+ *    page. No drop shadows, no 12px pill corners on everything.
+ * 3. NUMERALS ARE TYPESET. The sessions-left count is the most important thing
+ *    on any screen, so it is set large in Erode, tabular, and never competes
+ *    with a coloured button.
+ *
+ * Type: Erode (display + numerals) and Switzer (UI), both self-hosted from
+ * Fontshare under the ITF Free Font License. Deliberately not Inter, and
+ * deliberately not the Instrument-Serif-on-off-white look.
  */
+
 @theme {
-  --color-paper: #faf7f2;
-  --color-card: #ffffff;
-  --color-ink: #191713;
-  --color-muted: #6b665c;
-  --color-line: #e7e1d6;
+  /* -- Surfaces: warm paper stock, never pure white ----------------------- */
+  --color-paper: #f7f4ed;
+  --color-paper-sunk: #efeade;
+  --color-card: #fdfcfa;
 
-  --color-brand: #1d5c4f;
-  --color-brand-ink: #123a31;
-  --color-brand-soft: #e7f0ec;
+  /* -- Ink: warm near-black, never #000 ----------------------------------- */
+  --color-ink: #1c1a17;
+  --color-ink-2: #443e34;
+  --color-muted: #7a7263;
+  --color-faint: #a49a87;
 
-  --color-ok: #2e7d5b;
-  --color-ok-soft: #e6f2ec;
-  --color-low: #a86c07;
-  --color-low-soft: #fbf0da;
-  --color-out: #b0402e;
-  --color-out-soft: #fbe9e5;
+  /* -- Rules: the ledger lines -------------------------------------------- */
+  --color-rule: #ddd4c3;
+  --color-rule-soft: #ebe5d8;
 
-  --font-display: var(--font-display), Georgia, serif;
-  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  /* -- Meaning. The only saturated colour in the system. ------------------ */
+  --color-ok: #3f6b4e;
+  --color-ok-soft: #e7ede4;
+  --color-low: #9c6414;
+  --color-low-soft: #f5ead7;
+  --color-out: #94382d;
+  --color-out-soft: #f4e3de;
+
+  --font-display: var(--font-erode), Georgia, serif;
+  --font-sans: var(--font-switzer), ui-sans-serif, system-ui, sans-serif;
+
+  /* Ledger corners: nearly square. Nothing here is a pill. */
+  --radius-ledger: 3px;
 }
 
 @layer base {
   html {
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   body {
     background-color: var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-sans);
+    font-feature-settings: "ss01";
   }
 
-  /* Consistent focus ring on every interactive element. */
+  /* Every number in the product is a quantity — align them all. */
+  :is(h1, h2, h3, .display, .num) {
+    font-variant-numeric: tabular-nums;
+  }
+
   :focus-visible {
-    outline: 2px solid var(--color-brand);
+    outline: 2px solid var(--color-ink);
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: 1px;
+  }
+
+  ::selection {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
   }
 }
 
 @layer components {
+  /* -- Typography --------------------------------------------------------- */
+
+  /* Erode set tight and optically large — this is the voice of the brand. */
   .display {
     font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: -0.015em;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
   }
 
-  .card {
-    background-color: var(--color-card);
-    border: 1px solid var(--color-line);
-    border-radius: 0.75rem;
-  }
-
+  /* The ledger column header: small, spaced, quiet. */
   .label {
     font-size: 0.6875rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.11em;
     text-transform: uppercase;
     color: var(--color-muted);
   }
+
+  .num {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  /* -- Surfaces ----------------------------------------------------------- */
+
+  .sheet {
+    background-color: var(--color-card);
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-ledger);
+  }
+
+  /* -- Controls ----------------------------------------------------------- */
 
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    border-radius: 0.5rem;
+    gap: 0.45rem;
+    border-radius: var(--radius-ledger);
     font-size: 0.875rem;
-    font-weight: 550;
-    padding: 0.5rem 0.9rem;
+    font-weight: 500;
+    line-height: 1.2;
+    padding: 0.5rem 0.85rem;
     border: 1px solid transparent;
     cursor: pointer;
-    transition:
-      background-color 0.15s ease,
-      border-color 0.15s ease,
-      opacity 0.15s ease;
     white-space: nowrap;
+    transition:
+      background-color 0.12s ease,
+      border-color 0.12s ease,
+      color 0.12s ease;
   }
   .btn:disabled {
-    opacity: 0.55;
+    opacity: 0.4;
     cursor: not-allowed;
   }
 
+  /* Ink, not a brand hue. Colour in this product means status. */
   .btn-primary {
-    background-color: var(--color-brand);
-    color: #fff;
+    background-color: var(--color-ink);
+    color: var(--color-paper);
   }
   .btn-primary:hover:not(:disabled) {
-    background-color: var(--color-brand-ink);
+    background-color: #000;
   }
 
   .btn-secondary {
-    background-color: var(--color-card);
-    border-color: var(--color-line);
+    background-color: transparent;
+    border-color: var(--color-rule);
     color: var(--color-ink);
   }
   .btn-secondary:hover:not(:disabled) {
-    border-color: var(--color-muted);
+    border-color: var(--color-ink);
   }
 
   .btn-ghost {
     background-color: transparent;
     color: var(--color-muted);
+    padding-inline: 0.4rem;
   }
   .btn-ghost:hover:not(:disabled) {
     color: var(--color-ink);
-    background-color: var(--color-brand-soft);
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   .input {
     width: 100%;
     background-color: var(--color-card);
-    border: 1px solid var(--color-line);
-    border-radius: 0.5rem;
-    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-ledger);
+    padding: 0.5rem 0.65rem;
     font-size: 0.9375rem;
+    font-family: var(--font-sans);
     color: var(--color-ink);
   }
   .input::placeholder {
-    color: #a8a294;
+    color: var(--color-faint);
   }
   .input:focus {
     outline: none;
-    border-color: var(--color-brand);
-    box-shadow: 0 0 0 3px var(--color-brand-soft);
+    border-color: var(--color-ink);
+    box-shadow: inset 0 -2px 0 0 var(--color-ink);
   }
 
   .field-label {
     display: block;
     font-size: 0.8125rem;
-    font-weight: 550;
+    font-weight: 500;
     margin-bottom: 0.3rem;
-    color: var(--color-ink);
+    color: var(--color-ink-2);
   }
 
-  .pill {
+  /* -- Status ------------------------------------------------------------- */
+
+  /* Squared off, like a stamp in a margin — not a rounded chip. */
+  .stamp {
     display: inline-flex;
     align-items: center;
-    gap: 0.3rem;
-    border-radius: 999px;
-    padding: 0.15rem 0.55rem;
-    font-size: 0.75rem;
+    gap: 0.35rem;
+    border-radius: 2px;
+    padding: 0.1rem 0.4rem;
+    font-size: 0.6875rem;
     font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* A hairline that reads as a ruled page rather than a border. */
+  .rule-t {
+    border-top: 1px solid var(--color-rule-soft);
   }
 }

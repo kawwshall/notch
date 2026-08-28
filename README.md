@@ -1,4 +1,4 @@
-# SessionPack
+# Notch
 
 Prepaid session tracking and renewal nudges for independent personal trainers,
 yoga teachers, music teachers and similar solo service professionals.
@@ -23,7 +23,7 @@ npm run dev
 Optional demo data — a trainer with clients in every pack state:
 
 ```bash
-npm run seed              # demo@sessionpack.app / demo1234
+npm run seed              # demo@notch.app / demo1234
 ```
 
 ## How it works
@@ -42,12 +42,42 @@ A pack's **health** is one of three states, and it drives every colour in the UI
 | `out`  | no sessions left                   |
 
 **Nudges fire once per level.** After emailing a client at 2 sessions left,
-SessionPack stays quiet until the count drops to 1, then 0 — so nobody gets the
+Notch stays quiet until the count drops to 1, then 0 — so nobody gets the
 same message twice for the same pack state. Failed sends are recorded but don't
 suppress a retry, since only `status = "sent"` rows count.
 
 Renewal emails are written in the trainer's voice, sent with their address as
 `reply-to`, and always editable before they go out.
+
+## Design system — "Coach's Ledger"
+
+A notch is a mark cut to count something, so the tally mark is the product's
+primary information device rather than a decoration. Three rules hold it
+together, and they're worth keeping if you extend the UI:
+
+1. **Ink is the brand.** Primary buttons, the wordmark and focus rings are all
+   near-black. Saturated colour is reserved *entirely* for the three pack
+   states — if something is coloured, it is telling you something.
+2. **Rules, not shadows.** Surfaces are separated by hairlines like a ledger
+   page. No drop shadows, no pill corners (`--radius-ledger` is 3px).
+3. **Numerals are typeset.** The sessions-left count is the most important
+   thing on any screen: large, tabular, in Erode, never competing with a
+   coloured button.
+
+Type is **Erode** (display and numerals) with **Switzer** (UI), self-hosted
+from Fontshare under the ITF Free Font License. Both are deliberate choices
+against the Inter / Instrument-Serif-on-off-white default that most generated
+interfaces land on. The licence forbids subsetting, so `next/font/local` serves
+the variable files whole — don't add a subsetting step.
+
+`TallyMarks` draws used and remaining as two *separate* well-formed tallies
+rather than one run that changes colour partway. Pack sizes are nearly always
+multiples of five, so a single run renders the common "one session left" state
+as a lone diagonal — the least legible mark in the set.
+
+> **If this repo goes public**, remove `src/fonts/*.woff2` from version control.
+> The ITF licence permits self-hosting for your own site but not redistribution,
+> and a public repo arguably counts. Fetch them at build time instead.
 
 ### Layout
 
@@ -57,6 +87,8 @@ src/lib/packs.ts      the domain core — remaining, health, who needs a nudge
 src/lib/actions.ts    all mutations as server actions, each re-checking ownership
 src/lib/email.ts      Resend transport + the message templates
 src/lib/auth.ts       bcrypt + signed-cookie sessions via jose
+src/components/tally.tsx  the tally device + the headline session count
+src/app/globals.css   design tokens and the component layer
 src/app/              / and /pricing public, /app/* gated
 ```
 

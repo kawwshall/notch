@@ -66,7 +66,7 @@ export default async function ClientDetailPage({ params }: PageProps<"/app/clien
         <h2 className="label">Active packs</h2>
         <div className="mt-2 flex flex-col gap-3">
           {active.length === 0 && (
-            <p className="card p-4 text-sm text-muted">
+            <p className="sheet p-4 text-sm text-muted">
               No active packs. Add one below to start tracking sessions.
             </p>
           )}
@@ -81,7 +81,7 @@ export default async function ClientDetailPage({ params }: PageProps<"/app/clien
       {history.length > 0 && (
         <section>
           <h2 className="label">Session history</h2>
-          <ul className="card mt-2 divide-y divide-line">
+          <ul className="sheet mt-2 divide-y divide-rule-soft">
             {history.map(({ session, pack }) => (
               <li key={session.id} className="flex items-center gap-3 px-4 py-2.5">
                 <span className="w-28 shrink-0 text-sm tabular-nums text-muted">
@@ -108,7 +108,7 @@ export default async function ClientDetailPage({ params }: PageProps<"/app/clien
       {nudgeLog.length > 0 && (
         <section>
           <h2 className="label">Renewal messages sent</h2>
-          <ul className="card mt-2 divide-y divide-line">
+          <ul className="sheet mt-2 divide-y divide-rule-soft">
             {nudgeLog.map((n) => (
               <li key={n.id} className="px-4 py-2.5 text-sm">
                 <div className="flex flex-wrap items-center gap-2">
@@ -117,7 +117,7 @@ export default async function ClientDetailPage({ params }: PageProps<"/app/clien
                   </span>
                   <span className="font-medium">{n.subject}</span>
                   {n.status === "failed" && (
-                    <span className="pill bg-out-soft text-out">Failed</span>
+                    <span className="stamp bg-out-soft text-out">Failed</span>
                   )}
                 </div>
                 {n.error && <p className="mt-0.5 text-xs text-out">{n.error}</p>}
@@ -138,7 +138,7 @@ export default async function ClientDetailPage({ params }: PageProps<"/app/clien
         </section>
       )}
 
-      <form action={archiveClientAction} className="border-t border-line pt-5">
+      <form action={archiveClientAction} className="border-t border-rule pt-5">
         <input type="hidden" name="clientId" value={client.id} />
         <SubmitButton className="btn btn-ghost text-out">Archive this client</SubmitButton>
         <p className="mt-1 text-xs text-muted">

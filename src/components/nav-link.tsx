@@ -12,8 +12,11 @@ export function NavLink({ href, children }: { href: string; children: React.Reac
     <Link
       href={href}
       aria-current={active ? "page" : undefined}
-      className={`rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors ${
-        active ? "bg-brand-soft text-brand-ink" : "text-muted hover:text-ink"
+      // Underlined rather than pill-highlighted — a ledger marks its place with a rule.
+      className={`border-b-2 px-1.5 py-1 text-sm transition-colors ${
+        active
+          ? "border-ink font-medium text-ink"
+          : "border-transparent text-muted hover:text-ink"
       }`}
     >
       {children}

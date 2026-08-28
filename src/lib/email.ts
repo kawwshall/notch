@@ -7,7 +7,7 @@ import type { User } from "@/db/schema";
 
 export type SendResult = { ok: true; id: string | null } | { ok: false; error: string };
 
-const FROM = process.env.RESEND_FROM ?? "SessionPack <onboarding@resend.dev>";
+const FROM = process.env.RESEND_FROM ?? "Notch <onboarding@resend.dev>";
 
 let client: Resend | null = null;
 function resend(): Resend | null {
@@ -110,9 +110,9 @@ export function digestMessage(views: PackView[], user: User) {
     "",
     ...lines,
     "",
-    `Open SessionPack to send their renewal messages: ${process.env.APP_URL ?? "http://localhost:3000"}/app`,
+    `Open Notch to see who to ask: ${process.env.APP_URL ?? "http://localhost:3000"}/app`,
     "",
-    "— SessionPack",
+    "— Notch",
   ].join("\n");
 
   return { subject, text };
