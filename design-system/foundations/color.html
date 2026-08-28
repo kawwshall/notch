@@ -1,0 +1,113 @@
+<!-- @dsCard group="Foundations" -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Notch — Colour</title>
+    <link rel="stylesheet" href="../_tokens.css" />
+    <style>
+      .swatches {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px;
+      }
+      .sw {
+        border: 1px solid var(--rule);
+        border-radius: var(--radius);
+        overflow: hidden;
+        background: var(--card);
+      }
+      .sw i {
+        display: block;
+        height: 56px;
+      }
+      .sw b {
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 7px 9px 1px;
+      }
+      .sw code {
+        display: block;
+        font-size: 11px;
+        color: var(--muted);
+        padding: 0 9px 8px;
+        font-family: ui-monospace, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stack">
+      <div>
+        <h1 style="font-size: 30px">Colour</h1>
+        <p class="note" style="margin-top: 8px">
+          <strong>Ink is the brand.</strong> Primary buttons, the wordmark and focus rings are all
+          near-black. Saturated colour is reserved entirely for the three pack states — if
+          something on screen is coloured, it is telling you something. This is what keeps the
+          interface from decorating itself.
+        </p>
+      </div>
+
+      <section>
+        <h2 class="label">Surfaces &amp; ink</h2>
+        <div class="swatches" style="margin-top: 10px">
+          <div class="sw">
+            <i style="background: var(--paper)"></i><b>Paper</b><code>#F7F4ED</code>
+          </div>
+          <div class="sw">
+            <i style="background: var(--paper-sunk)"></i><b>Paper sunk</b><code>#EFEADE</code>
+          </div>
+          <div class="sw">
+            <i style="background: var(--card)"></i><b>Card</b><code>#FDFCFA</code>
+          </div>
+          <div class="sw"><i style="background: var(--ink)"></i><b>Ink</b><code>#1C1A17</code></div>
+          <div class="sw">
+            <i style="background: var(--ink-2)"></i><b>Ink 2</b><code>#443E34</code>
+          </div>
+          <div class="sw">
+            <i style="background: var(--muted)"></i><b>Muted</b><code>#7A7263</code>
+          </div>
+          <div class="sw">
+            <i style="background: var(--faint)"></i><b>Faint</b><code>#A49A87</code>
+          </div>
+          <div class="sw">
+            <i style="background: var(--rule)"></i><b>Rule</b><code>#DDD4C3</code>
+          </div>
+          <div class="sw">
+            <i style="background: var(--rule-soft)"></i><b>Rule soft</b><code>#EBE5D8</code>
+          </div>
+        </div>
+        <p class="note" style="margin-top: 10px; font-size: 13px">
+          No pure white and no pure black anywhere. Both surfaces and ink are warm, which is what
+          makes the palette read as paper rather than as a default UI.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="label">Meaning — the only saturated colour in the system</h2>
+        <div class="swatches" style="margin-top: 10px">
+          <div class="sw">
+            <i style="background: var(--ok)"></i><b>On track</b><code>#3F6B4E</code>
+          </div>
+          <div class="sw">
+            <i style="background: var(--low)"></i><b>Nearly out</b><code>#9C6414</code>
+          </div>
+          <div class="sw"><i style="background: var(--out)"></i><b>Out</b><code>#94382D</code></div>
+          <div class="sw">
+            <i style="background: var(--ok-soft)"></i><b>On track soft</b><code>#E7EDE4</code>
+          </div>
+          <div class="sw">
+            <i style="background: var(--low-soft)"></i><b>Nearly out soft</b><code>#F5EAD7</code>
+          </div>
+          <div class="sw">
+            <i style="background: var(--out-soft)"></i><b>Out soft</b><code>#F4E3DE</code>
+          </div>
+        </div>
+        <p class="note" style="margin-top: 10px; font-size: 13px">
+          Muted and earthen rather than signal-bright. On warm paper a pure red or green reads as
+          an error state; these sit in the page and still separate cleanly at a glance.
+        </p>
+      </section>
+    </div>
+  </body>
+</html>

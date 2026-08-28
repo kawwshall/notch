@@ -1,0 +1,85 @@
+<!-- @dsCard group="Components" -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Notch — Buttons, fields &amp; stamps</title>
+    <link rel="stylesheet" href="../_tokens.css" />
+    <style>
+      .demo {
+        padding: 16px;
+        border: 1px solid var(--rule);
+        border-radius: var(--radius);
+        background: var(--card);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stack">
+      <div>
+        <h1 style="font-size: 30px">Controls</h1>
+        <p class="note" style="margin-top: 8px">
+          Nothing here is a pill and nothing casts a shadow. Corners are 3px, separation is done
+          with hairlines, and the primary action is ink — never a brand hue, because hue is
+          reserved for status.
+        </p>
+      </div>
+
+      <section>
+        <h2 class="label">Buttons</h2>
+        <div class="demo row" style="margin-top: 10px">
+          <button class="btn btn-primary">Cut a notch</button>
+          <button class="btn btn-secondary">Add client or pack</button>
+          <button class="btn btn-ghost">Undo last</button>
+          <button class="btn btn-primary" disabled>Cut a notch</button>
+        </div>
+        <p class="note" style="margin-top: 8px; font-size: 13px">
+          Primary is ink on paper. Secondary is a hairline outline. Ghost is muted text that
+          underlines on hover — used for destructive-adjacent or low-frequency actions like
+          <em>Undo last</em> and <em>Remove</em>. The disabled primary is how a fully-spent pack
+          presents: you cannot cut a notch you don't have.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="label">Fields</h2>
+        <div class="demo" style="margin-top: 10px; display: grid; gap: 12px; max-width: 420px">
+          <div>
+            <label class="field-label">Name</label>
+            <input class="input" value="Priya Sharma" />
+          </div>
+          <div>
+            <label class="field-label">
+              Email <span style="font-weight: 400; color: var(--muted)">— needed for renewal messages</span>
+            </label>
+            <input class="input input-focus" value="priya@example.com" />
+          </div>
+          <div>
+            <label class="field-label">Notes <span style="font-weight: 400; color: var(--muted)">— optional</span></label>
+            <input class="input" placeholder="Tuesdays 7am, knee injury" />
+          </div>
+        </div>
+        <p class="note" style="margin-top: 8px; font-size: 13px">
+          Focus is an inset 2px underline in ink, like a pen resting on a ruled line — not a
+          coloured glow. Optional and explanatory text sits inside the label in regular weight so
+          the form reads as a sentence rather than a wall of required fields.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="label">Status stamps</h2>
+        <div class="demo row" style="margin-top: 10px">
+          <span class="stamp stamp-ok">On track</span>
+          <span class="stamp stamp-low">Nearly out</span>
+          <span class="stamp stamp-out">Out</span>
+          <span class="stamp stamp-ok">To ask</span>
+        </div>
+        <p class="note" style="margin-top: 8px; font-size: 13px">
+          Squared off at 2px, like a stamp in a margin. Uppercase and tracked to match
+          <code style="font-family: ui-monospace, monospace">.label</code>, so status reads as
+          annotation on the record rather than as a badge competing with the client's name.
+        </p>
+      </section>
+    </div>
+  </body>
+</html>

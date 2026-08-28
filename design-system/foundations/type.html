@@ -1,0 +1,82 @@
+<!-- @dsCard group="Foundations" -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Notch — Type</title>
+    <link rel="stylesheet" href="../_tokens.css" />
+    <style>
+      .spec {
+        display: grid;
+        grid-template-columns: 92px 1fr;
+        gap: 16px;
+        align-items: baseline;
+        padding: 14px 0;
+        border-top: 1px solid var(--rule-soft);
+      }
+      .spec code {
+        font-size: 11px;
+        color: var(--muted);
+        font-family: ui-monospace, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stack">
+      <div>
+        <h1 style="font-size: 30px">Type</h1>
+        <p class="note" style="margin-top: 8px">
+          <strong>Erode</strong> for display and every numeral;
+          <strong>Switzer</strong> for interface text. Both from Fontshare under the ITF Free Font
+          License. Chosen deliberately against Inter and Instrument Serif — the two faces
+          generated interfaces default to — and because Erode's cut has a slightly carved quality
+          that suits a product named after a mark cut to count something.
+        </p>
+      </div>
+
+      <section>
+        <h2 class="label">Erode — display</h2>
+        <div class="spec">
+          <code>text-5xl<br />.num</code>
+          <div class="num" style="font-size: 48px">0 1 6 17 26</div>
+        </div>
+        <div class="spec">
+          <code>text-4xl<br />.display</code>
+          <div class="display" style="font-size: 36px">Know what every client has left.</div>
+        </div>
+        <div class="spec">
+          <code>text-2xl<br />.display</code>
+          <div class="display" style="font-size: 24px">Priya Sharma</div>
+        </div>
+        <p class="note" style="margin-top: 6px; font-size: 13px">
+          Numerals are always tabular, because every number in this product is a quantity that
+          sits in a column. The sessions-left count is the largest thing on any screen — it never
+          competes with a coloured button for attention.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="label">Switzer — interface</h2>
+        <div class="spec">
+          <code>base</code>
+          <div style="font-size: 16px; line-height: 1.55">
+            Notch keeps count of prepaid session packs and tells you who to ask about renewing.
+          </div>
+        </div>
+        <div class="spec">
+          <code>sm</code>
+          <div style="font-size: 14px; color: var(--ink-2)">10-session PT block · 9 of 10 used</div>
+        </div>
+        <div class="spec">
+          <code>.label</code>
+          <div class="label">Ask about renewing</div>
+        </div>
+        <p class="note" style="margin-top: 6px; font-size: 13px">
+          <code style="font-family: ui-monospace, monospace">.label</code> is the ledger column
+          header: 11px, 600, 0.11em tracked, uppercase, muted. It marks sections without needing a
+          heading-sized type step or a coloured bar.
+        </p>
+      </section>
+    </div>
+  </body>
+</html>

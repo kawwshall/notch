@@ -1,0 +1,124 @@
+<!-- @dsCard group="Brand" -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Notch — Wordmark &amp; voice</title>
+    <link rel="stylesheet" href="../_tokens.css" />
+    <style>
+      .mark {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .panel {
+        padding: 20px;
+        border: 1px solid var(--rule);
+        border-radius: var(--radius);
+        background: var(--card);
+      }
+      .voice {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        border-top: 1px solid var(--rule-soft);
+      }
+      .voice > div {
+        padding: 12px 0;
+      }
+      .voice .no {
+        color: var(--muted);
+        text-decoration: line-through;
+        text-decoration-color: var(--out);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stack">
+      <div>
+        <h1 style="font-size: 30px">Wordmark</h1>
+        <p class="note" style="margin-top: 8px">
+          One complete tally group — four uprights and the crossing fifth — set against the name in
+          Erode. The logo is the same object as the core UI element, so the brand and the interface
+          are literally made of the same thing. It is drawn in
+          <code style="font-family: ui-monospace, monospace">currentColor</code>, so it inherits ink
+          on paper and paper on ink without a second asset.
+        </p>
+      </div>
+
+      <section class="row" style="gap: 32px">
+        <div class="panel">
+          <span class="mark" style="color: var(--ink)">
+            <svg width="32" height="28" viewBox="0 0 23 24" fill="none">
+              <line x1="3" y1="1.5" x2="3" y2="22.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="9" y1="1.5" x2="9" y2="22.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="15" y1="1.5" x2="15" y2="22.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="21" y1="1.5" x2="21" y2="22.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="0.5" y1="22" x2="22.5" y2="2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+            <span class="display" style="font-size: 28px">Notch</span>
+          </span>
+        </div>
+
+        <div class="panel" style="background: var(--ink)">
+          <span class="mark" style="color: var(--paper)">
+            <svg width="32" height="28" viewBox="0 0 23 24" fill="none">
+              <line x1="3" y1="1.5" x2="3" y2="22.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="9" y1="1.5" x2="9" y2="22.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="15" y1="1.5" x2="15" y2="22.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="21" y1="1.5" x2="21" y2="22.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="0.5" y1="22" x2="22.5" y2="2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+            <span class="display" style="font-size: 28px">Notch</span>
+          </span>
+        </div>
+
+        <div class="panel">
+          <span class="mark" style="color: var(--ink)">
+            <svg width="20" height="18" viewBox="0 0 23 24" fill="none">
+              <line x1="3" y1="1.5" x2="3" y2="22.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+              <line x1="9" y1="1.5" x2="9" y2="22.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+              <line x1="15" y1="1.5" x2="15" y2="22.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+              <line x1="21" y1="1.5" x2="21" y2="22.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+              <line x1="0.5" y1="22" x2="22.5" y2="2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+            </svg>
+            <span class="display" style="font-size: 17px">Notch</span>
+          </span>
+          <div class="label" style="margin-top: 10px">Small — 17px</div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="label">Voice</h2>
+        <p class="note" style="margin-top: 8px">
+          Notch talks the way a good coach does: plainly, without selling. The user is a working
+          professional, not a "user", and their clients are people with names. No exclamation
+          marks, no growth language, no emoji anywhere in the product.
+        </p>
+        <div class="voice" style="margin-top: 12px; max-width: 640px">
+          <div class="label">Say</div>
+          <div class="label">Not</div>
+          <div style="border-top: 1px solid var(--rule-soft)">Cut a notch</div>
+          <div class="no" style="border-top: 1px solid var(--rule-soft)">Log session ✅</div>
+          <div style="border-top: 1px solid var(--rule-soft)">Ask about renewing</div>
+          <div class="no" style="border-top: 1px solid var(--rule-soft)">Send re-engagement campaign</div>
+          <div style="border-top: 1px solid var(--rule-soft)">Nobody needs asking right now.</div>
+          <div class="no" style="border-top: 1px solid var(--rule-soft)">You're all caught up! 🎉</div>
+          <div style="border-top: 1px solid var(--rule-soft)">3 people to ask about renewing.</div>
+          <div class="no" style="border-top: 1px solid var(--rule-soft)">3 at-risk clients detected</div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="label">Layout rules</h2>
+        <ul class="note" style="margin-top: 8px; padding-left: 18px; line-height: 1.8">
+          <li>Rules, never shadows. Hairlines at <code style="font-family:ui-monospace,monospace">--rule</code> separate everything.</li>
+          <li>Corners are 3px. Nothing in this product is a pill.</li>
+          <li>Asymmetric grids on marketing pages; no three-across card rows.</li>
+          <li>No icons. If something needs an icon to be understood, rewrite the label.</li>
+          <li>Section headers are <code style="font-family:ui-monospace,monospace">.label</code> over a rule, not a type step.</li>
+        </ul>
+      </section>
+    </div>
+  </body>
+</html>

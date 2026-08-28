@@ -1,0 +1,119 @@
+<!-- @dsCard group="Foundations" -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Notch — The tally device</title>
+    <link rel="stylesheet" href="../_tokens.css" />
+    <style>
+      .grid {
+        display: grid;
+        /* max-content, not a fixed width: a 20-session pack is ~165px wide. */
+        grid-template-columns: max-content 1fr;
+        gap: 14px 20px;
+        align-items: center;
+      }
+      .cap {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .bad {
+        border-left: 2px solid var(--out);
+        padding-left: 14px;
+      }
+      .good {
+        border-left: 2px solid var(--ok);
+        padding-left: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stack">
+      <div>
+        <h1 style="font-size: 30px">The tally</h1>
+        <p class="note" style="margin-top: 8px">
+          The brand device and the primary information display, not a decoration. Sessions are
+          drawn as real tally marks — four uprights crossed by a fifth diagonal, the way anyone
+          counts on paper. Sessions still owed are struck in the health colour; sessions already
+          delivered are ghosted back to the rule colour, so a pack reads as
+          <em>what's left</em> rather than what's gone.
+        </p>
+      </div>
+
+      <section>
+        <h2 class="label">States</h2>
+        <div class="grid" style="margin-top: 12px">
+          <span data-tally data-total="12" data-remaining="6" data-health="ok"></span>
+          <span class="cap">6 of 12 · on track</span>
+
+          <span data-tally data-total="10" data-remaining="1" data-health="low"></span>
+          <span class="cap">1 of 10 · nearly out</span>
+
+          <span data-tally data-total="8" data-remaining="0" data-health="out"></span>
+          <span class="cap">0 of 8 · out — every mark spent</span>
+
+          <span data-tally data-total="20" data-remaining="17" data-health="ok"></span>
+          <span class="cap">17 of 20 · a fresh 20-pack</span>
+
+          <span data-tally data-total="5" data-remaining="5" data-health="ok"></span>
+          <span class="cap">5 of 5 · untouched</span>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="label">Why two runs, not one</h2>
+        <p class="note" style="margin-top: 8px">
+          Used and remaining are drawn as two <em>separate</em> well-formed tallies rather than one
+          continuous run that changes colour partway. This is the single most important rule in
+          the component.
+        </p>
+
+        <div style="display: grid; gap: 18px; margin-top: 14px; max-width: 640px">
+          <div class="bad">
+            <div class="label" style="color: var(--out)">Rejected — one continuous run</div>
+            <svg width="150" height="24" viewBox="0 0 150 24" fill="none" style="margin-top: 8px">
+              <!-- 9 spent uprights + the 10th mark falling on the diagonal -->
+              <line x1="3" y1="1" x2="3" y2="23" stroke="var(--rule)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="9" y1="1" x2="9" y2="23" stroke="var(--rule)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="15" y1="1" x2="15" y2="23" stroke="var(--rule)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="21" y1="1" x2="21" y2="23" stroke="var(--rule)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="0" y1="22" x2="24" y2="2" stroke="var(--rule)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="38" y1="1" x2="38" y2="23" stroke="var(--rule)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="44" y1="1" x2="44" y2="23" stroke="var(--rule)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="50" y1="1" x2="50" y2="23" stroke="var(--rule)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="56" y1="1" x2="56" y2="23" stroke="var(--rule)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="35" y1="22" x2="59" y2="2" stroke="var(--low)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <p class="note" style="font-size: 13px; margin-top: 6px">
+              Pack sizes are nearly always multiples of five, so the last remaining mark lands on
+              the group's diagonal. "One session left" — the state the whole product exists to
+              surface — renders as a lone slash, the least legible mark in the set.
+            </p>
+          </div>
+
+          <div class="good">
+            <div class="label" style="color: var(--ok)">Shipped — two runs</div>
+            <div style="margin-top: 8px">
+              <span data-tally data-total="10" data-remaining="1" data-health="low"></span>
+            </div>
+            <p class="note" style="font-size: 13px; margin-top: 6px">
+              The remainder always starts at the first upright of its own group, so it reads
+              cleanly at any count. Nine spent, one left.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="label">Limits</h2>
+        <p class="note" style="margin-top: 8px; font-size: 13px">
+          Above 40 sessions the marks stop being scannable and the component renders nothing —
+          the numeral carries it, with a plain rule beneath so the layout doesn't collapse. Never
+          draw a tally for a figure that sums several packs: a proportional mark would imply a
+          pack size that doesn't exist.
+        </p>
+      </section>
+    </div>
+    <script src="../_tally.js"></script>
+  </body>
+</html>
