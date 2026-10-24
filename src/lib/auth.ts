@@ -7,7 +7,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { users, type User } from "@/db/schema";
 
 const COOKIE = "notch_auth";
@@ -66,7 +66,7 @@ export const getCurrentUser = cache(async (): Promise<User | null> => {
     const uid = payload.uid;
     if (typeof uid !== "number") return null;
 
-    const row = await db.query.users.findFirst({ where: eq(users.id, uid) });
+    const row = await getDb().query.users.findFirst({ where: eq(users.id, uid) });
     return row ?? null;
   } catch {
     // Expired or tampered token — treat as signed out.

@@ -2,7 +2,7 @@ import "server-only";
 
 import { and, asc, count, desc, eq, isNull, max, sql } from "drizzle-orm";
 
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { clients, nudges, packs, sessions, type Client, type Pack } from "@/db/schema";
 
 /** How close to empty a pack is. Drives every colour and sort order in the UI. */
@@ -58,27 +58,6 @@ function shouldNudge(args: {
   return remaining < lastNudgeRemaining;
 }
 
-const usedSubquery = db
-  .select({
-    packId: sessions.packId,
-    used: count(sessions.id).as("used"),
-  })
-  .from(sessions)
-  .groupBy(sessions.packId)
-  .as("used_counts");
-
-const lastNudgeSubquery = db
-  .select({
-    packId: nudges.packId,
-    // Latest send wins; remainingAtSend is monotonically decreasing per pack.
-    lastRemaining: sql<number>`min(${nudges.remainingAtSend})`.as("last_remaining"),
-    lastSentAt: max(nudges.sentAt).as("last_sent_at"),
-  })
-  .from(nudges)
-  .where(eq(nudges.status, "sent"))
-  .groupBy(nudges.packId)
-  .as("last_nudges");
-
 /**
  * Every pack for a user, newest first, with usage and nudge state resolved in
  * one query. `onlyActive` hides packs the trainer has manually closed.
@@ -88,11 +67,32 @@ export async function listPacks(
   lowThreshold: number,
   opts: { onlyActive?: boolean; clientId?: number } = {},
 ): Promise<PackView[]> {
+  const usedSubquery = getDb()
+    .select({
+      packId: sessions.packId,
+      used: count(sessions.id).as("used"),
+    })
+    .from(sessions)
+    .groupBy(sessions.packId)
+    .as("used_counts");
+
+  const lastNudgeSubquery = getDb()
+    .select({
+      packId: nudges.packId,
+      // Latest send wins; remainingAtSend is monotonically decreasing per pack.
+      lastRemaining: sql<number>`min(${nudges.remainingAtSend})`.as("last_remaining"),
+      lastSentAt: max(nudges.sentAt).as("last_sent_at"),
+    })
+    .from(nudges)
+    .where(eq(nudges.status, "sent"))
+    .groupBy(nudges.packId)
+    .as("last_nudges");
+
   const filters = [eq(packs.userId, userId), isNull(clients.archivedAt)];
   if (opts.onlyActive) filters.push(eq(packs.status, "active"));
   if (opts.clientId !== undefined) filters.push(eq(packs.clientId, opts.clientId));
 
-  const rows = await db
+  const rows = await getDb()
     .select({
       pack: packs,
       client: clients,
@@ -155,7 +155,7 @@ export function summarize(views: PackView[]) {
 
 export async function listClientsWithTotals(userId: number, lowThreshold: number) {
   const views = await listPacks(userId, lowThreshold);
-  const rows = await db
+  const rows = await getDb()
     .select()
     .from(clients)
     .where(and(eq(clients.userId, userId), isNull(clients.archivedAt)))
@@ -176,7 +176,7 @@ export async function listClientsWithTotals(userId: number, lowThreshold: number
 
 /** Recent session log across all packs — the "what did I do this week" view. */
 export async function recentSessions(userId: number, limit = 20) {
-  return db
+  return getDb()
     .select({ session: sessions, pack: packs, client: clients })
     .from(sessions)
     .innerJoin(packs, eq(packs.id, sessions.packId))

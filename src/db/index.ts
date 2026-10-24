@@ -1,23 +1,12 @@
-import Database from "better-sqlite3";
-import { drizzle } from "drizzle-orm/better-sqlite3";
+import "server-only";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { drizzle } from "drizzle-orm/d1";
 import * as schema from "./schema";
 
-const DB_PATH = process.env.DATABASE_URL ?? "notch.db";
+/** Resolve D1 inside each request so bindings never leak between Worker requests. */
+export function getDb() {
+  const { env } = getCloudflareContext();
+  return drizzle(env.DB, { schema });
+}
 
-// Next dev server hot-reloads modules; without this we'd open a new SQLite
-// handle on every reload and eventually hit "too many open files".
-const globalForDb = globalThis as unknown as { __notchDb?: Database.Database };
-
-const sqlite =
-  globalForDb.__notchDb ??
-  (() => {
-    const conn = new Database(DB_PATH);
-    conn.pragma("journal_mode = WAL");
-    conn.pragma("foreign_keys = ON");
-    return conn;
-  })();
-
-if (process.env.NODE_ENV !== "production") globalForDb.__notchDb = sqlite;
-
-export const db = drizzle(sqlite, { schema });
 export { schema };

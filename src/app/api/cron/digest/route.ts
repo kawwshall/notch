@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { users } from "@/db/schema";
 import { digestMessage, sendEmail } from "@/lib/email";
 import { listPacks, summarize } from "@/lib/packs";
@@ -25,7 +25,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const recipients = await db.select().from(users).where(eq(users.dailyDigest, true));
+  const recipients = await getDb().select().from(users).where(eq(users.dailyDigest, true));
 
   let sent = 0;
   let skipped = 0;

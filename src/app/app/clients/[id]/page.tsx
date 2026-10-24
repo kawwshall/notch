@@ -6,7 +6,7 @@ import { ClientForm } from "@/components/client-form";
 import { PackCard } from "@/components/pack-card";
 import { PackForm } from "@/components/pack-form";
 import { SubmitButton } from "@/components/submit-button";
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { clients, nudges, packs, sessions } from "@/db/schema";
 import { archiveClientAction, deleteSessionAction } from "@/lib/actions";
 import { requireUser } from "@/lib/auth";
@@ -19,21 +19,21 @@ export default async function ClientDetailPage({ params }: PageProps<"/app/clien
   const clientId = Number((await params).id);
   if (!Number.isInteger(clientId)) notFound();
 
-  const client = await db.query.clients.findFirst({
+  const client = await getDb().query.clients.findFirst({
     where: and(eq(clients.id, clientId), eq(clients.userId, user.id)),
   });
   if (!client) notFound();
 
   const [views, history, nudgeLog] = await Promise.all([
     listPacks(user.id, user.lowThreshold, { clientId }),
-    db
+    getDb()
       .select({ session: sessions, pack: packs })
       .from(sessions)
       .innerJoin(packs, eq(packs.id, sessions.packId))
       .where(and(eq(sessions.userId, user.id), eq(packs.clientId, clientId)))
       .orderBy(desc(sessions.occurredAt), desc(sessions.id))
       .limit(50),
-    db
+    getDb()
       .select()
       .from(nudges)
       .where(and(eq(nudges.userId, user.id), eq(nudges.clientId, clientId)))
