@@ -1,5 +1,7 @@
 # Notch
 
+Live: https://notch.beingkaushal01.workers.dev/
+
 Prepaid session tracking and renewal nudges for independent personal trainers,
 yoga teachers, music teachers and similar solo service professionals.
 
@@ -15,8 +17,8 @@ $9/month. No booking, no payments, no marketing suite.
 
 ```bash
 npm install
-cp .env.example .env      # then fill in AUTH_SECRET (openssl rand -base64 32)
-npm run db:migrate
+# Create .dev.vars with AUTH_SECRET set to a random string of at least 32 characters
+npm run db:migrate:local
 npm run dev
 ```
 
@@ -110,12 +112,38 @@ and stays silent for anyone whose queue is empty.
 
 ## Storage
 
-SQLite via better-sqlite3, which is plenty for the per-trainer data volume here.
-The Drizzle schema is written to port to Postgres when that stops being true —
-change the dialect in `drizzle.config.ts` and the driver in `src/db/index.ts`.
+Cloudflare D1 stores application data persistently in production. Local development uses Wrangler’s local D1 simulation. Drizzle uses the same SQLite schema in both environments; database bindings are resolved per request.
 
 ## Not built yet
 
 Stripe billing. Every account is on free early access, and `/app/settings` says
 so. The `$9/month` on the marketing pages is the intended price, not a live
 charge.
+
+## Deploy on Cloudflare
+
+This app uses OpenNext on Cloudflare Workers and a D1 database. No paid plan is required for a small portfolio deployment within the free-tier limits.
+
+```bash
+npm ci
+npx wrangler login
+npm run cf:types
+npm run db:migrate:local
+npm run cf:build
+npx opennextjs-cloudflare preview
+```
+
+Create `.dev.vars` with an `AUTH_SECRET` of at least 32 random characters for local development. Never commit it.
+
+For production, set `AUTH_SECRET` with `npx wrangler secret put AUTH_SECRET`, then run:
+
+```bash
+npm run db:migrate:remote
+npm run deploy
+```
+
+The D1 binding and database ID are in `wrangler.jsonc`. Apply migrations before publishing schema changes. `npm run cf:types` regenerates the binding types after configuration changes.
+
+Optional email delivery needs `RESEND_API_KEY`, `RESEND_FROM`, and `APP_URL`. The daily digest also requires `CRON_SECRET` and an external scheduler. Email sends report a configuration error until credentials are supplied; billing remains free early access.
+
+The original `npm run seed` script targets a separate local SQLite file and is not run against D1 automatically.

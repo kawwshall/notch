@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { clients, nudges, packs, sessions, users } from "@/db/schema";
 import {
   createSession,
@@ -62,10 +62,10 @@ export async function registerAction(
 
   const { name, email, businessName, password } = parsed.data;
 
-  const existing = await db.query.users.findFirst({ where: eq(users.email, email) });
+  const existing = await getDb().query.users.findFirst({ where: eq(users.email, email) });
   if (existing) return fail("An account with that email already exists.");
 
-  const [user] = await db
+  const [user] = await getDb()
     .insert(users)
     .values({ name, email, businessName, passwordHash: await hashPassword(password) })
     .returning();
@@ -86,7 +86,7 @@ export async function loginAction(_prev: ActionState, formData: FormData): Promi
   });
   if (!parsed.success) return fail(parsed.error.issues[0].message);
 
-  const user = await db.query.users.findFirst({ where: eq(users.email, parsed.data.email) });
+  const user = await getDb().query.users.findFirst({ where: eq(users.email, parsed.data.email) });
   // Same message either way so the form can't be used to enumerate accounts.
   if (!user || !(await verifyPassword(parsed.data.password, user.passwordHash))) {
     return fail("That email and password don't match.");
@@ -125,7 +125,7 @@ export async function createClientAction(
   });
   if (!parsed.success) return fail(parsed.error.issues[0].message);
 
-  await db.insert(clients).values({ userId: user.id, ...parsed.data });
+  await getDb().insert(clients).values({ userId: user.id, ...parsed.data });
   refreshApp();
   return { ok: `${parsed.data.name} added.` };
 }
@@ -144,7 +144,7 @@ export async function updateClientAction(
   });
   if (!parsed.success) return fail(parsed.error.issues[0].message);
 
-  const result = await db
+  const result = await getDb()
     .update(clients)
     .set(parsed.data)
     .where(and(eq(clients.id, clientId), eq(clients.userId, user.id)))
@@ -159,7 +159,7 @@ export async function archiveClientAction(formData: FormData) {
   const user = await requireUser();
   const clientId = Number(formData.get("clientId"));
 
-  await db
+  await getDb()
     .update(clients)
     .set({ archivedAt: new Date() })
     .where(and(eq(clients.id, clientId), eq(clients.userId, user.id)));
@@ -185,7 +185,7 @@ export async function createPackAction(
     return fail("Sessions must be a whole number between 1 and 500.");
   }
 
-  const owned = await db.query.clients.findFirst({
+  const owned = await getDb().query.clients.findFirst({
     where: and(eq(clients.id, clientId), eq(clients.userId, user.id)),
   });
   if (!owned) return fail("Pick a client for this pack.");
@@ -195,7 +195,7 @@ export async function createPackAction(
     return fail("Price must be a positive number.");
   }
 
-  await db.insert(packs).values({
+  await getDb().insert(packs).values({
     userId: user.id,
     clientId,
     label,
@@ -215,7 +215,7 @@ export async function setPackStatusAction(formData: FormData) {
   const packId = Number(formData.get("packId"));
   const status = formData.get("status") === "closed" ? "closed" : "active";
 
-  await db
+  await getDb()
     .update(packs)
     .set({ status })
     .where(and(eq(packs.id, packId), eq(packs.userId, user.id)));
@@ -227,7 +227,7 @@ export async function deletePackAction(formData: FormData) {
   const user = await requireUser();
   const packId = Number(formData.get("packId"));
 
-  await db.delete(packs).where(and(eq(packs.id, packId), eq(packs.userId, user.id)));
+  await getDb().delete(packs).where(and(eq(packs.id, packId), eq(packs.userId, user.id)));
   refreshApp();
 }
 
@@ -237,12 +237,12 @@ export async function logSessionAction(formData: FormData) {
   const user = await requireUser();
   const packId = Number(formData.get("packId"));
 
-  const pack = await db.query.packs.findFirst({
+  const pack = await getDb().query.packs.findFirst({
     where: and(eq(packs.id, packId), eq(packs.userId, user.id)),
   });
   if (!pack) return;
 
-  await db.insert(sessions).values({
+  await getDb().insert(sessions).values({
     userId: user.id,
     packId,
     occurredAt: parseDate(formData.get("occurredAt")) ?? new Date(),
@@ -257,13 +257,13 @@ export async function undoSessionAction(formData: FormData) {
   const user = await requireUser();
   const packId = Number(formData.get("packId"));
 
-  const latest = await db.query.sessions.findFirst({
+  const latest = await getDb().query.sessions.findFirst({
     where: and(eq(sessions.packId, packId), eq(sessions.userId, user.id)),
     orderBy: [desc(sessions.occurredAt), desc(sessions.id)],
   });
   if (!latest) return;
 
-  await db.delete(sessions).where(eq(sessions.id, latest.id));
+  await getDb().delete(sessions).where(eq(sessions.id, latest.id));
   refreshApp();
 }
 
@@ -271,7 +271,7 @@ export async function deleteSessionAction(formData: FormData) {
   const user = await requireUser();
   const sessionId = Number(formData.get("sessionId"));
 
-  await db
+  await getDb()
     .delete(sessions)
     .where(and(eq(sessions.id, sessionId), eq(sessions.userId, user.id)));
   refreshApp();
@@ -302,7 +302,7 @@ export async function sendNudgeAction(
     replyTo: user.email,
   });
 
-  await db.insert(nudges).values({
+  await getDb().insert(nudges).values({
     userId: user.id,
     clientId: view.client.id,
     packId: view.pack.id,
@@ -336,7 +336,7 @@ export async function updateSettingsAction(
     return fail("The warning threshold must be between 1 and 20 sessions.");
   }
 
-  await db
+  await getDb()
     .update(users)
     .set({
       name,
